@@ -6,6 +6,8 @@ export const getAndPersistEarthquakeData = async () => {
     try {
         const response = await axios.get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson');
         const features = response.data.features;
+        
+        let new_id = 1;
 
         for (const feature of features) {
             const {
@@ -24,13 +26,14 @@ export const getAndPersistEarthquakeData = async () => {
             if (geometry.coordinates[0] < -180.0 || geometry.coordinates[0] > 180.0 || geometry.coordinates[1] < -90.0 || geometry.coordinates[1] > 90.0) continue;
 
             // Valodar si el terremoto ya existe
-            const existingEarthquake = await Earthquake.findOne({ id });
+            const existingEarthquake = await Earthquake.findOne({ external_id: id });
             // console.log({existingEarthquake});
             if (existingEarthquake) continue;
 
             // Persistir la info
             const earthquake = new Earthquake({
-                id,
+                id: new_id,
+                external_id: id,
                 mag: properties.mag,
                 place: properties.place,
                 time: new Date(properties.time),
@@ -38,11 +41,13 @@ export const getAndPersistEarthquakeData = async () => {
                 tsunami: properties.tsunami,
                 magType: properties.magType,
                 title: properties.title,
-                coordinates: geometry.coordinates
+                coordinates: geometry.coordinates,
+                comments: []
             });
 
             const result = await earthquake.save();
             
+            new_id++;
         }
         console.log('Earthquake data persisted successfully');
     } catch (error) {

@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 
 const earthquakeSchema = new mongoose.Schema({
-            id: String,
+            id: Number,
+            external_id: String,
             mag: {
                 type: Number,
                 required: true,
@@ -29,6 +30,12 @@ const earthquakeSchema = new mongoose.Schema({
             coordinates: {
                 type: [Number],
                 required: true,
+            },
+            comments: {
+                type: [{
+                    body: String
+                }],
+                default: []
             }
             })
 

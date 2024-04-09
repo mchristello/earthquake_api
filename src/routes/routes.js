@@ -5,11 +5,11 @@ const router = Router();
 
 
 // Ruta GET
-router.get('/getEarthquakes', get );
+router.get('/features', get );
 
 
 // Ruta POST
-router.post('/postEarthquake', post)
+router.post('/features/:feature_id/comments', post)
 
 
 
