@@ -6,9 +6,10 @@ export const getAndPersistEarthquakeData = async () => {
     try {
         const response = await axios.get('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson');
         const features = response.data.features;
-        
-        let new_id = 1;
 
+        const lastFeature = await Earthquake.findOne({}, {}, { sort: { 'id': -1 }})
+        let newId = lastFeature ? lastFeature.id + 1 : 1;
+        
         for (const feature of features) {
             const {
                 id,
@@ -32,7 +33,7 @@ export const getAndPersistEarthquakeData = async () => {
 
             // Persistir la info
             const earthquake = new Earthquake({
-                id: new_id,
+                id: newId,
                 external_id: id,
                 mag: properties.mag,
                 place: properties.place,
@@ -45,9 +46,9 @@ export const getAndPersistEarthquakeData = async () => {
                 comments: []
             });
 
-            const result = await earthquake.save();
-            
-            new_id++;
+            await earthquake.save();
+
+            newId++;
         }
         console.log('Earthquake data persisted successfully');
     } catch (error) {

@@ -31,7 +31,7 @@ export const get = async(req, res) => {
                 external_id: e.external_id,
                 magnitude: e.mag,
                 place: e.place,
-                time: e.time.toISOString(),
+                time: e.time.toLocaleString(),
                 tsunami: e.tsunami,
                 mag_type: e.magType,
                 title: e.title,

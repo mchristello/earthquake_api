@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 function CreateComment() {
     const [body, setBody] = useState("");
-    const { id } = useParams()
+    const { id } = useParams();
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,9 +18,10 @@ function CreateComment() {
         })
         .then((response) => {
             if (response.ok) {
-            console.log("Comentario creado satisfactoriamente");
+                console.log("Comentario creado satisfactoriamente");
+                setBody("");
             } else {
-            console.error("Error al crear el comentario");
+                console.error("Error al crear el comentario");
             }
         })
         .catch((error) => console.error("Error en la solicitud:", error));
@@ -38,7 +40,8 @@ function CreateComment() {
                     style={{ margin: '2rem'}}
                 />
                 </label>
-                <button type="submit">Enviar</button>
+                <button type="submit" >Enviar</button><hr />
+                <Link to='/'>Volver al Home</Link>
             </form>
         </div>
     );
