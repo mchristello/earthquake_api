@@ -8,7 +8,7 @@ function App() {
   return (
     <Router>
       <div>
-        <h1>AQUI!</h1>
+        <h1>Earthquakes info!</h1>
         <Routes>
           <Route path="/" element={<FeaturesList />} />
           <Route path="/create-comment/:id" element={<CreateComment />} />

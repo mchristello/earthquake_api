@@ -1,13 +1,19 @@
 #root {
   max-width: 1280px;
-  margin: 0 auto;
+  margin: 1rem auto;
   padding: 2rem;
   text-align: center;
+  background: rgba(37, 33, 33, 0.589);
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 2.5px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 .card {
-  padding: 2em;
-  border-radius: 10px;
-  border-color: snow;
-  border-width: 5px;
+  margin: 3rem;
+  padding: 1rem;
+  border-radius: 50px;
+  background: #666666e5;
+  box-shadow: 10px 10px 10px #bebebe, 1px 10px 60px #ffffff;
 }

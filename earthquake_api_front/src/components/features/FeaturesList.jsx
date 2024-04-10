@@ -2,19 +2,41 @@ import React, { useState, useEffect } from "react";
 
 function FeaturesList() {
     const [features, setFeatures] = useState([]);
+    const [pagination, setPagination] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/features")
+        fetch(`http://localhost:3000/api/features?page=${currentPage}&per_page=20`)
         .then((response) => response.json())
         .then((data) => {
             setFeatures(data.data);
+            setPagination(data.pagination);
         })
         .catch(error => console.error('Error en la solicitud:', error));
-    }, []);
+    }, [currentPage]);
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
+
+    const handleNextPage = () => {
+        if (currentPage < pagination.total) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
 
     return (
         <div>
             <h2>Lista de Eventos</h2>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem', justifyContent: 'center'}}>
+                <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous Page</button>
+                <span>Total Features: {pagination.total}</span>
+                <span>Current Page: {currentPage}</span>
+                <span>Per Page: {pagination.per_page}</span>
+                <button onClick={handleNextPage} disabled={currentPage === pagination.total}>Next Page</button>
+            </div> 
             {features.map((feature) => (
                 <section key={feature.id} >
                     <div className="card">
@@ -37,6 +59,13 @@ function FeaturesList() {
                     </div>
                 </section>
             ))}
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '2rem', justifyContent: 'center'}}>
+                <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous Page</button>
+                <span>Total Features: {pagination.total}</span>
+                <span>Current Page: {currentPage}</span>
+                <span>Per Page: {pagination.per_page}</span>
+                <button onClick={handleNextPage} disabled={currentPage === pagination.total}>Next Page</button>
+            </div>
         </div>
     );
 }
