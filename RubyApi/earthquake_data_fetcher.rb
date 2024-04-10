@@ -1,6 +1,6 @@
 require 'json'
 require 'net/http'
-require_relative '../model/earthquake'
+require_relative './earthquake'
 
 def get_and_persist_earthquake_data
     begin
